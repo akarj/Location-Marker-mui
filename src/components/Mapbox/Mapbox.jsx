@@ -7,11 +7,13 @@ import axios from "axios";
 import { format } from "timeago.js";
 import "./Mapbox.scss";
 import Register from "../Register/Register";
+import Login from "../Login/Login";
 
 require("dotenv").config();
 
 function Mapbox() {
   //states
+  const myStorage = window.localStorage;
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
   const [currentUsername, setCurrentUsername] = useState(null);
@@ -187,19 +189,31 @@ function Mapbox() {
           </Button>
         ) : (
           <Stack direction="row" spacing={2} className="btnGroup">
-            <Button variant="contained" className="btn login">
+            <Button
+              variant="contained"
+              className="btn login"
+              onClick={() => setShowLogin(true)}
+            >
               Login
             </Button>
             <Button
               variant="contained"
               color="success"
               className="btn register"
+              onClick={() => setShowRegister(true)}
             >
               Register
             </Button>
           </Stack>
         )}
         {showRegister && <Register setShowRegister={setShowRegister} />}
+        {showLogin && (
+          <Login
+            setShowLogin={setShowLogin}
+            myStorage={myStorage}
+            setCurrentUsername={setCurrentUsername}
+          />
+        )}
       </ReactMapGL>
     </div>
   );

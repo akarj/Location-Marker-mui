@@ -65,12 +65,11 @@ div.register-container {
       color: red;
       text-align: center;
     }
-
-    .registerCancel {
-      position: relative;
-      top: 5px;
-      right: 5px;
-      cursor: pointer;
-    }
+  }
+  .registerCancel {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
   }
 }

@@ -1,0 +1,70 @@
+div.login-container {
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  div.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: slateblue;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  form {
+    width: 16rem;
+    height: 16rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: rgb(88, 87, 87);
+
+    input {
+      border: none;
+      border-bottom: 1px solid gray;
+      margin-left: 0.5rem;
+    }
+    input::placeholder {
+      font-size: 12px;
+      color: rgb(185, 184, 184);
+    }
+    input:focus {
+      outline: none;
+    }
+
+    .loginButton {
+      margin-top: 4px;
+      transition: 0.5ms;
+    }
+    .loginButton:hover {
+      transition: 0.5s;
+      margin-top: 0;
+      outline: green;
+      // border: 2px solid green;
+    }
+
+    .failure {
+      font-size: 12px;
+      color: red;
+      text-align: center;
+    }
+  }
+  .loginCancel {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
+}
