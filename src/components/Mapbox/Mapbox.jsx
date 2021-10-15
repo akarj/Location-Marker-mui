@@ -19,7 +19,6 @@ function Mapbox() {
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
   const [star, setStar] = useState(0);
-
   const [viewport, setViewport] = useState({
     width: "100vw",
     height: "100vh",

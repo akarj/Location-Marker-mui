@@ -1,6 +1,6 @@
 import "./Register.scss";
 import Button from "@mui/material/Button";
-import { Room } from "@mui/icons-material";
+import { Cancel, Room } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import axios from "axios";
 
@@ -20,11 +20,18 @@ export default function Register() {
     };
 
     try {
-      await axios.post("/users/register", newUser);
+      const res = await axios.post("/users/register", newUser);
       setError(false);
       setSuccess(true);
+      console.log(res);
+      setTimeout(e => {
+        setSuccess(false);
+      }, 2000);
     } catch (err) {
       setError(true);
+      setTimeout(e => {
+        setError(false);
+      }, 2000);
     }
   };
   return (
@@ -36,6 +43,7 @@ export default function Register() {
         <input
           type="text"
           name="username"
+          autoFocus
           //  autoComplete="username"
           placeholder="username"
           id="username"
@@ -71,6 +79,10 @@ export default function Register() {
         )}
         {error && <span className="failure">Something went wrong!</span>}
       </form>
+      <Cancel
+        className="registerCancel"
+        //   onClick={() => setShowRegister(false)}
+      />
     </div>
   );
 }

@@ -46,8 +46,10 @@ div.register-container {
 
     .submitButton {
       margin-top: 4px;
+      transition: 0.5ms;
     }
     .submitButton:hover {
+      transition: 0.5s;
       margin-top: 0;
       outline: green;
       border: 2px solid green;
@@ -62,6 +64,13 @@ div.register-container {
       font-size: 12px;
       color: red;
       text-align: center;
+    }
+
+    .registerCancel {
+      position: relative;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
     }
   }
 }
