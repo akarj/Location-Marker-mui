@@ -26,6 +26,8 @@ function Mapbox() {
     longitude: 77.1025,
     zoom: 4,
   });
+  const [showRegister, setShowRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   //Effects
   useEffect(() => {
@@ -197,7 +199,7 @@ function Mapbox() {
             </Button>
           </Stack>
         )}
-        <Register />
+        {showRegister && <Register setShowRegister={setShowRegister} />}
       </ReactMapGL>
     </div>
   );

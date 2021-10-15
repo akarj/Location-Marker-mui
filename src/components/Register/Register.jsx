@@ -4,7 +4,7 @@ import { Cancel, Room } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import axios from "axios";
 
-export default function Register() {
+export default function Register({ setShowRegister }) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const usernameRef = useRef();
@@ -81,7 +81,7 @@ export default function Register() {
       </form>
       <Cancel
         className="registerCancel"
-        //   onClick={() => setShowRegister(false)}
+        onClick={() => setShowRegister(false)}
       />
     </div>
   );
