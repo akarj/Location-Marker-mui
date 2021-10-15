@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { Room, Star } from "@mui/icons-material";
-
+import axios from "axios";
 import "./Mapbox.scss";
 
 require("dotenv").config();
 
 function Mapbox() {
+  //states
+  const [pins, setPins] = useState([]);
   const [viewport, setViewport] = useState({
     width: "100vw",
     height: "100vh",
@@ -14,6 +16,26 @@ function Mapbox() {
     longitude: 77.1025,
     zoom: 4,
   });
+
+  //Effects
+  useEffect(() => {
+    const getPins = async () => {
+      try {
+        const allPins = await axios.get("/pins");
+        // console.log("pins data", allPins.data.data);
+        //   const arr = allPins.data.data;
+        //   console.log("Array data", arr);
+
+        setPins(allPins.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPins();
+  }, []);
+
+  //Functions
+
   return (
     <div className="mapbox-container">
       <ReactMapGL
@@ -21,6 +43,7 @@ function Mapbox() {
         mapStyle={process.env.REACT_APP_MAPBOX_STYLE}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={nextViewport => setViewport(nextViewport)}
+        //   onClick={e => console.log(e.lngLat)}
         //   onDblClick={currentUsername && handleAddClick}
         transitionDuration="500"
       >
