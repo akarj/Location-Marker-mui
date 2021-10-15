@@ -10,12 +10,6 @@
     flex-direction: column;
     justify-content: space-around;
 
-    label {
-      width: max-content;
-      color: tomato;
-      font-size: 13px;
-      border-bottom: 0.01rem solid tomato;
-    }
     p {
       font-size: 0.9rem;
     }
@@ -29,6 +23,49 @@
     }
     span.date {
       font-size: 0.7rem;
+    }
+  }
+}
+label {
+  width: max-content;
+  color: tomato;
+  font-size: 0.9rem;
+  border-bottom: 0.01rem solid tomato;
+}
+div.formDiv {
+  // background-color: rgb(211, 9, 9);
+
+  form {
+    width: 16rem;
+    height: 16rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: rgb(88, 87, 87);
+
+    input,
+    textarea {
+      border: none;
+      border-bottom: 1px solid gray;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      font-size: 12px;
+      color: rgb(185, 184, 184);
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+    }
+
+    .submitButton {
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+      color: white;
+      background-color: tomato;
+      cursor: pointer;
     }
   }
 }

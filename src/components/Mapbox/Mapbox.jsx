@@ -11,6 +11,11 @@ function Mapbox() {
   //states
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
+  const [currentUsername, setCurrentUsername] = useState("Surya");
+  const [newPlace, setNewPlace] = useState(null);
+  const [title, setTitle] = useState(null);
+  const [desc, setDesc] = useState(null);
+  const [star, setStar] = useState(0);
 
   const [viewport, setViewport] = useState({
     width: "100vw",
@@ -25,10 +30,6 @@ function Mapbox() {
     const getPins = async () => {
       try {
         const allPins = await axios.get("/pins");
-        // console.log("pins data", allPins.data.data);
-        //   const arr = allPins.data.data;
-        //   console.log("Array data", arr);
-
         setPins(allPins.data.data);
       } catch (err) {
         console.log(err);
@@ -38,10 +39,33 @@ function Mapbox() {
   }, []);
 
   //Functions
-  //   const handleMarkerClick = (id, lat, long) => {
-  const handleMarkerClick = id => {
+
+  const handleMarkerClick = (id, lat, long) => {
     setCurrentPlaceId(id);
-    //  setViewport({ ...viewport, latitude: lat, longitude: long });
+    setViewport({ ...viewport, latitude: lat, longitude: long });
+  };
+
+  const handleAddClick = e => {
+    const [longitude, latitude] = e.lngLat;
+    console.log("longitude :=> ", longitude);
+    console.log("latitude :=> ", latitude);
+    setNewPlace({
+      lat: latitude,
+      long: longitude,
+    });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const newPin = {
+      username: currentUsername,
+      title,
+      desc,
+      rating: star,
+      lat: newPlace.lat,
+      long: newPlace.long,
+    };
+    console.log(newPin);
   };
 
   return (
@@ -52,7 +76,7 @@ function Mapbox() {
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={nextViewport => setViewport(nextViewport)}
         //   onClick={e => console.log(e.lngLat)}
-        //   onDblClick={currentUsername && handleAddClick}
+        onDblClick={handleAddClick}
         transitionDuration="500"
       >
         {pins.map(p => (
@@ -66,11 +90,12 @@ function Mapbox() {
               <Room
                 style={{
                   fontSize: 7 * viewport.zoom,
-                  color: "slateblue",
-                  //   color: currentUsername === p.username ? "tomato" : "slateblue",
+
+                  color:
+                    currentUsername === p.username ? "tomato" : "slateblue",
                   cursor: "pointer",
                 }}
-                onClick={() => handleMarkerClick(p._id)}
+                onClick={() => handleMarkerClick(p._id, p.lat, p.long)}
               />
             </Marker>
             {p._id === currentPlaceId && (
@@ -80,7 +105,7 @@ function Mapbox() {
                 longitude={p.long}
                 closeButton={true}
                 closeOnClick={false}
-                //  onClose={() => setCurrentPlaceId(null)}
+                onClose={() => setCurrentPlaceId(null)}
                 anchor="left"
                 className="popup"
               >
@@ -104,6 +129,44 @@ function Mapbox() {
             )}
           </div>
         ))}
+
+        {newPlace && (
+          <Popup
+            latitude={newPlace.lat}
+            longitude={newPlace.long}
+            closeButton={true}
+            closeOnClick={false}
+            anchor="left"
+            onClose={() => setNewPlace(null)}
+          >
+            <div className="formDiv">
+              <form onSubmit={handleSubmit}>
+                <label>Title</label>
+                <input
+                  placeholder="Enter a title"
+                  autoFocus
+                  onChange={e => setTitle(e.target.value)}
+                />
+                <label>Description</label>
+                <textarea
+                  placeholder="Say us something about this place."
+                  onChange={e => setDesc(e.target.value)}
+                />
+                <label>Rating</label>
+                <select onChange={e => setStar(e.target.value)}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                <button type="submit" className="submitButton">
+                  Add Pin
+                </button>
+              </form>
+            </div>
+          </Popup>
+        )}
       </ReactMapGL>
     </div>
   );
