@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { format } from "timeago.js";
 import "./Mapbox.scss";
+import Register from "../Register/Register";
 
 require("dotenv").config();
 
@@ -197,6 +198,7 @@ function Mapbox() {
             </Button>
           </Stack>
         )}
+        <Register />
       </ReactMapGL>
     </div>
   );
