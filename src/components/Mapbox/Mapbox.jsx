@@ -16,7 +16,9 @@ function Mapbox() {
   const myStorage = window.localStorage;
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
-  const [currentUsername, setCurrentUsername] = useState(null);
+  const [currentUsername, setCurrentUsername] = useState(
+    myStorage.getItem("user")
+  );
   const [newPlace, setNewPlace] = useState(null);
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
@@ -81,6 +83,12 @@ function Mapbox() {
     } catch (err) {
       console.log("newPin Error at 72", { err }, { ...newPin });
     }
+  };
+
+  const handleLogout = e => {
+    console.log(e, "LOG OUT");
+    setCurrentUsername(null);
+    myStorage.removeItem("user");
   };
 
   return (
@@ -184,7 +192,12 @@ function Mapbox() {
         )}
 
         {currentUsername ? (
-          <Button variant="contained" id="logout" color="info">
+          <Button
+            variant="contained"
+            id="logout"
+            color="info"
+            onClick={handleLogout}
+          >
             Log out
           </Button>
         ) : (
