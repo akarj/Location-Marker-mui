@@ -39,7 +39,7 @@ function Mapbox() {
             }}
           />
         </Marker>
-        <Popup
+        {/* <Popup
           //  key={p._id}
           latitude={28.7041}
           longitude={77.1025}
@@ -47,7 +47,27 @@ function Mapbox() {
           closeOnClick={false}
           //  onClose={() => setCurrentPlaceId(null)}
           anchor="left"
-        ></Popup>
+          className="popup"
+        >
+          <div className="card">
+            <label>Place</label>
+            <h4 className="place">Delhi</h4>
+            <label>Review</label>
+            <p>Capital</p>
+            <label>Rating</label>
+            <div className="stars">
+              <Star className="star" />
+              <Star className="star" />
+              <Star className="star" />
+            </div>
+
+            <label>Information</label>
+            <span className="username">
+              Created by<b>Anuj</b>
+            </span>
+            <span className="date">1 hour ago</span>
+          </div>
+        </Popup> */}
       </ReactMapGL>
     </div>
   );
