@@ -33,6 +33,7 @@ function Mapbox() {
         setPins(allPins.data.data);
       } catch (err) {
         console.log(err);
+        process.exit(1);
       }
     };
     getPins();
@@ -46,12 +47,12 @@ function Mapbox() {
   };
 
   const handleAddClick = e => {
-    const [longitude, latitude] = e.lngLat;
-    console.log("longitude :=> ", longitude);
-    console.log("latitude :=> ", latitude);
+    const [long, lat] = e.lngLat;
+    console.log("Long :=> ", long);
+    console.log("Lat :=> ", lat);
     setNewPlace({
-      lat: latitude,
-      long: longitude,
+      lat,
+      long,
     });
   };
 
@@ -65,7 +66,15 @@ function Mapbox() {
       lat: newPlace.lat,
       long: newPlace.long,
     };
-    console.log(newPin);
+
+    try {
+      console.log("newPins => ", newPin);
+      const res = await axios.post("/pins", newPin);
+      setPins([...pins, res.data.data]);
+      setNewPlace(null);
+    } catch (err) {
+      console.log("newPin Error at 72", { err }, { ...newPin });
+    }
   };
 
   return (
@@ -82,8 +91,8 @@ function Mapbox() {
         {pins.map(p => (
           <div key={`${p.lat}${p._id}`}>
             <Marker
-              latitude={p.lat}
-              longitude={p.long}
+              latitude={p.lat ? p.lat : 28.7041}
+              longitude={p.long ? p.long : 77.1025}
               offsetLeft={-3.5 * viewport.zoom}
               offsetTop={-7 * viewport.zoom}
             >
