@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { Room, Star } from "@mui/icons-material";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import { format } from "timeago.js";
 import "./Mapbox.scss";
@@ -11,7 +13,7 @@ function Mapbox() {
   //states
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
-  const [currentUsername, setCurrentUsername] = useState("Surya");
+  const [currentUsername, setCurrentUsername] = useState(null);
   const [newPlace, setNewPlace] = useState(null);
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
@@ -175,6 +177,25 @@ function Mapbox() {
               </form>
             </div>
           </Popup>
+        )}
+
+        {currentUsername ? (
+          <Button variant="contained" id="logout" color="info">
+            Log out
+          </Button>
+        ) : (
+          <Stack direction="row" spacing={2} className="btnGroup">
+            <Button variant="contained" className="btn login">
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              className="btn register"
+            >
+              Register
+            </Button>
+          </Stack>
         )}
       </ReactMapGL>
     </div>
