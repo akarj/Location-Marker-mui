@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { Room, Star } from "@mui/icons-material";
 import axios from "axios";
+import { format } from "timeago.js";
 import "./Mapbox.scss";
 
 require("dotenv").config();
@@ -9,6 +10,8 @@ require("dotenv").config();
 function Mapbox() {
   //states
   const [pins, setPins] = useState([]);
+  const [currentPlaceId, setCurrentPlaceId] = useState(null);
+
   const [viewport, setViewport] = useState({
     width: "100vw",
     height: "100vh",
@@ -35,6 +38,11 @@ function Mapbox() {
   }, []);
 
   //Functions
+  //   const handleMarkerClick = (id, lat, long) => {
+  const handleMarkerClick = id => {
+    setCurrentPlaceId(id);
+    //  setViewport({ ...viewport, latitude: lat, longitude: long });
+  };
 
   return (
     <div className="mapbox-container">
@@ -47,50 +55,55 @@ function Mapbox() {
         //   onDblClick={currentUsername && handleAddClick}
         transitionDuration="500"
       >
-        <Marker
-          latitude={28.7041}
-          longitude={77.1025}
-          offsetLeft={-3.5 * viewport.zoom}
-          offsetTop={-7 * viewport.zoom}
-        >
-          <Room
-            style={{
-              fontSize: 7 * viewport.zoom,
-              color: "slateblue",
-              //   color: currentUsername === p.username ? "tomato" : "slateblue",
-              cursor: "pointer",
-            }}
-          />
-        </Marker>
-        {/* <Popup
-          //  key={p._id}
-          latitude={28.7041}
-          longitude={77.1025}
-          closeButton={true}
-          closeOnClick={false}
-          //  onClose={() => setCurrentPlaceId(null)}
-          anchor="left"
-          className="popup"
-        >
-          <div className="card">
-            <label>Place</label>
-            <h4 className="place">Delhi</h4>
-            <label>Review</label>
-            <p>Capital</p>
-            <label>Rating</label>
-            <div className="stars">
-              <Star className="star" />
-              <Star className="star" />
-              <Star className="star" />
-            </div>
+        {pins.map(p => (
+          <div key={`${p.lat}${p._id}`}>
+            <Marker
+              latitude={p.lat}
+              longitude={p.long}
+              offsetLeft={-3.5 * viewport.zoom}
+              offsetTop={-7 * viewport.zoom}
+            >
+              <Room
+                style={{
+                  fontSize: 7 * viewport.zoom,
+                  color: "slateblue",
+                  //   color: currentUsername === p.username ? "tomato" : "slateblue",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleMarkerClick(p._id)}
+              />
+            </Marker>
+            {p._id === currentPlaceId && (
+              <Popup
+                key={p._id}
+                latitude={p.lat}
+                longitude={p.long}
+                closeButton={true}
+                closeOnClick={false}
+                //  onClose={() => setCurrentPlaceId(null)}
+                anchor="left"
+                className="popup"
+              >
+                <div className="card">
+                  <label>Place</label>
+                  <h4 className="place">{p.title}</h4>
+                  <label>Review</label>
+                  <p>{p.desc}</p>
+                  <label>Rating</label>
+                  <div className="stars">
+                    {Array(p.rating).fill(<Star className="star" />)}
+                  </div>
 
-            <label>Information</label>
-            <span className="username">
-              Created by<b>Anuj</b>
-            </span>
-            <span className="date">1 hour ago</span>
+                  <label>Information</label>
+                  <span className="username">
+                    Created by <b>{p.username}</b>
+                  </span>
+                  <span className="date">{format(p.createdAt)}</span>
+                </div>
+              </Popup>
+            )}
           </div>
-        </Popup> */}
+        ))}
       </ReactMapGL>
     </div>
   );

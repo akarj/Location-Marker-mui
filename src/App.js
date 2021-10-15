@@ -4,7 +4,7 @@ import Mapbox from "./components/Mapbox/Mapbox";
 function App() {
   return (
     <div className="App">
-      <Mapbox />
+      <Mapbox key="MAP" />
     </div>
   );
 }
